@@ -3,16 +3,16 @@ import os
 import matplotlib.pyplot as plt
 
 path = 'C:\\NIVC\\Nivc_BigARTM_corpus\\unary_comm\\'
-subd = "golosislamacom"
+subd = "islam-newsru"
 batch_vectorizer = artm.BatchVectorizer(data_path=path + "\\" + subd + "\\" + "batches",
                                             data_format='batches')
 
-modelARTM = artm.ARTM(topic_names=['topic_{}'.format(i) for i in xrange(2)],
+modelARTM = artm.ARTM(topic_names=['topic_{}'.format(i) for i in xrange(100)],
                       scores=[artm.PerplexityScore(name='PerplexityScore', use_unigram_document_model=False, dictionary=batch_vectorizer.dictionary),
-                              artm.SparsityPhiScore(name='SparsityPhiScore'),
+                              artm.SparsityPhiScore(name='SparsityPhiScore', class_id='text'),
                               #artm.SparsityThetaScore(name='SparsityThetaScore'),
                               #artm.TopicKernelScore(name='TopicKernelScore', probability_mass_threshold=0.3),
-                              artm.TopTokensScore(name='TopTokensScore', num_tokens=6)],
+                              artm.TopTokensScore(name='TopTokensScore', class_id='text', num_tokens=10, dictionary=batch_vectorizer.dictionary)],
                       cache_theta=True)
 
 #modelARTM.regularizers.add(artm.SmoothSparseThetaRegularizer(name='SparseTheta', tau=-0.15))
@@ -23,7 +23,7 @@ modelARTM.initialize(dictionary=batch_vectorizer.dictionary)
 
 modelARTM.num_document_passes = 1
 
-modelARTM.fit_offline(batch_vectorizer=batch_vectorizer, num_collection_passes = 1)
+modelARTM.fit_offline(batch_vectorizer=batch_vectorizer, num_collection_passes = 20)
 
 print "===========================ARTM PerplexityScore start===================================="
 print modelARTM.score_tracker['PerplexityScore'].value

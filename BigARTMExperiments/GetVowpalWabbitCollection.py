@@ -7,13 +7,12 @@ import pymorphy2
 from collections import Counter
 
 POSOpt = ["NOUN",	#имя существительное	хомяк
-    "ADJF",	#имя прилагательное (полное)	хороший
-    "ADJS",	#имя прилагательное (краткое)	хорош
-    "VERB",	#глагол (личная форма)	говорю, говорит, говорил
-    "INFN",	#глагол (инфинитив)	говорить, сказать
-    "PRTF",	#причастие (полное)	прочитавший, прочитанная
-    "PRTS"] #причастие (краткое)	прочитана
-
+        "ADJF",	#имя прилагательное (полное)	хороший
+        "ADJS",	#имя прилагательное (краткое)	хорош
+        "VERB",	#глагол (личная форма)	говорю, говорит, говорил
+        "INFN",	#глагол (инфинитив)	говорить, сказать
+        "PRTF",	#причастие (полное)	прочитавший, прочитанная
+        "PRTS"] #причастие (краткое)	прочитана
 morph = pymorphy2.MorphAnalyzer()
 
 def POSFilter(word):
@@ -66,9 +65,8 @@ def main():
                     # if i == 17009:
                     #     print "here"
                     for key in contentDict["Frequencies"]:
-                        if (unicode(key) != unicode("") and unicode(key) != unicode(" ")):
-                            if POSFilter(key):
-                                output.write(unicode(key + ":"+str(contentDict["Frequencies"][key])+" "))
+                        if (unicode(key) != unicode("") and unicode(key) != unicode(" ")) and POSFilter(key):
+                            output.write(unicode(key + ":"+str(contentDict["Frequencies"][key])+" "))
                     output.write(unicode("\n"))
                     #print(i)
                     #i+=1
